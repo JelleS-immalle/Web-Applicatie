@@ -22,3 +22,7 @@ In deze repository vindt u de README.md met de draw.io schema's.
 + Check functies op de ingegeven naam en in welke klas de leerling zit werken
 + Extra vermeldingen toegevoegd die melden of de leerling in 6ITN of 5ITN zit of gewoon niet herkend wordt
 + Bij elke dag van de week is het verplicht een naam in te geven en wordt er een onderscheid gemaakt tussen leerlingen uit 5ITN en 6ITN
+
+## Toekomst...
+
++ Eventueel de klas en de ingegeven naam opslagen in een cookie, zodat deze niet altijd terug opnieuw moeten worden ingegeven.
