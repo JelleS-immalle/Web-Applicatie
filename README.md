@@ -1,5 +1,5 @@
 # Web-Applicatie
-In deze repository vindt u de README.md met de draw.io schema's.
+In deze repository vindt u de README.md, draw.io schema's en alle bestanden rond de web app.
 
 ## 23-03-2017
 
