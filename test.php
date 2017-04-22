@@ -72,8 +72,10 @@
 
         <?php
             /* Hier wordt gecontroleerd of de ingegeven naam in
-            de tabel met leerlingen staat */
+            de tabel met leerlingen staat en in welke klas de leerling zit */
             
+            $klasLeerling;
+
             if (isset($_POST['naamLeerling'])) {
                 controleerNaamLeerling();
             }
@@ -83,41 +85,68 @@
                 echo '<h1>Ingegeven naam is: '.$naamLeerling.'</h1>';
 
                 $link = mysqli_connect("localhost", "uurrooster", "uurrooster123", "Uurrooster-Web-App");
-                $check = $link->query("SELECT KlasNaam, LeerlingNaam FROM Leerling WHERE LeerlingNaam LIKE '%{$naamLeerling}%'");
-                
-                if($check->num_rows == 0) {
-                    echo "<h1>Naam niet gevonden</h1>";
-                } else {
-                    echo "<h1>Naam gevonden</h1>";
-                }
 
-                $query2 = "SELECT KlasNaam, LeerlingNaam FROM Leerling WHERE LeerlingNaam LIKE '%{$naamLeerling}%'";
-                $resultaat = mysqli_query($link, $query2);
-                $row2 = mysqli_fetch_row($result);
+                $queryCheck = "SELECT KlasNaam, LeerlingNaam FROM Leerling WHERE LeerlingNaam LIKE '%{$naamLeerling}%'";
+                $resultCheck = mysqli_query($link, $queryCheck);
+                $rowCheck = mysqli_fetch_row($resultCheck);
 
-                if(strpos($row2[0], '6ITN') !==false) {
+                if(strpos($rowCheck[0], '6ITN') !==false) {
                     echo '<h1>Deze leerling zit in 6ITN</h1>';
-                } else {
+                    $GLOBALS['klasLeerling'] = "6ITN";
+                } else if(strpos($rowCheck[0], '5ITN') !==false) {
                     echo '<h1>Deze leerling zit in 5ITN</h1>';
+                    $GLOBALS['klasLeerling'] = "5ITN";
+                } else {
+                    echo '<h1>De naam die werd ingegeven wordt niet herkend</h1>';
                 }
             }
 
             /* Hier worden de uurroosters afgeprint */
 
             if (isset($_GET['maandag'])) {
-                geefUurroosterMaandag6ITN();
+                if($GLOBALS['klasLeerling'] == "6ITN") {
+                    geefUurroosterMaandag6ITN();
+                } else if($GLOBALS['klasLeerling'] == "5ITN") {
+                    geefUurroosterMaandag5ITN();
+                } else {
+                    echo '<h1>Geef een naam in zodat de web app weet in welke klas je zit</h1>';
+                }
             }
             if (isset($_GET['dinsdag'])) {
-                geefUurroosterDinsdag6ITN();
+                if($GLOBALS['klasLeerling'] == "6ITN") {
+                    geefUurroosterDinsdag6ITN();
+                } else if($GLOBALS['klasLeerling'] == "5ITN") {
+                    geefUurroosterDinsdag5ITN();
+                } else {
+                    echo '<h1>Geef een naam in zodat de web app weet in welke klas je zit</h1>';
+                }
             }
             if (isset($_GET['woensdag'])) {
-                geefUurroosterWoensdag6ITN();
+                if($GLOBALS['klasLeerling'] == "6ITN") {
+                    geefUurroosterWoensdag6ITN();
+                } else if($GLOBALS['klasLeerling'] == "5ITN") {
+                    geefUurroosterWoensdag5ITN();
+                } else {
+                    echo '<h1>Geef een naam in zodat de web app weet in welke klas je zit</h1>';
+                }
             }
             if (isset($_GET['donderdag'])) {
-                geefUurroosterDonderdag6ITN();
+                if($GLOBALS['klasLeerling'] == "6ITN") {
+                    geefUurroosterDonderdag6ITN();
+                } else if($GLOBALS['klasLeerling'] == "5ITN") {
+                    geefUurroosterDonderdag5ITN();
+                } else {
+                    echo '<h1>Geef een naam in zodat de web app weet in welke klas je zit</h1>';
+                }
             }
             if (isset($_GET['vrijdag'])) {
-                geefUurroosterVrijdag6ITN();
+                if($GLOBALS['klasLeerling'] == "6ITN") {
+                    geefUurroosterVrijdag6ITN();
+                } else if($GLOBALS['klasLeerling'] == "5ITN") {
+                    geefUurroosterVrijdag5ITN();
+                } else {
+                    echo '<h1>Geef een naam in zodat de web app weet in welke klas je zit</h1>';
+                }
             }
 
             function geefUurroosterMaandag6ITN() {
@@ -178,6 +207,77 @@
                     echo "</td></tr>";
 
                     mysqli_data_seek($result, 5);
+                    $row = mysqli_fetch_row($result);
+                    echo "<tr class='pure-table-odd'><td> 14.35-15.25u </td><td>";
+                    print_r($row[2]);
+                    echo "</td><td>";
+                    print_r($row[1]);
+                    echo "</td></tr>";
+
+                    /* free result set*/
+                    mysqli_free_result($result);
+                }
+
+                $link->close();
+            }
+            function geefUurroosterMaandag5ITN() {
+                $link = mysqli_connect("localhost", "uurrooster", "uurrooster123", "Uurrooster-Web-App");
+
+                $query = "SELECT VakID, Leerkracht, VakNaam FROM Vakken";
+
+                if ($result = mysqli_query($link, $query)) {
+                    echo "<table class='pure-table'>";
+                    echo "<tr><th>Uur</th><th>Vak</th><th>Leerkracht</th></tr>";
+
+                    mysqli_data_seek($result, 0);
+                    $row = mysqli_fetch_row($result);
+                    echo "<tr class='pure-table-odd'><td> 8.25u-9.15u </td><td>";
+                    print_r($row[2]);
+                    echo "</td><td>";
+                    print_r($row[1]);
+                    echo "</td></tr>";
+
+                    mysqli_data_seek($result, 0);
+                    $row = mysqli_fetch_row($result);
+                    echo "<tr><td> 9.15u-10.05u </td><td>";
+                    print_r($row[2]);
+                    echo "</td><td>";
+                    print_r($row[1]);
+                    echo "</td></tr>";
+                    
+                    mysqli_data_seek($result, 0);
+                    $row = mysqli_fetch_row($result);
+                    echo "<tr class='pure-table-odd'><td> 10.15u-11.05u </td><td>";
+                    print_r($row[2]);
+                    echo "</td><td>";
+                    print_r($row[1]);
+                    echo "</td></tr>";
+
+                    mysqli_data_seek($result, 0);
+                    $row = mysqli_fetch_row($result);
+                    echo "<tr><td> 11.05u-11.55u </td><td>";
+                    print_r($row[2]);
+                    echo "</td><td>";
+                    print_r($row[1]);
+                    echo "</td></tr>";
+
+                    mysqli_data_seek($result, 0);
+                    $row = mysqli_fetch_row($result);
+                    echo "<tr class='pure-table-odd'><td> 12.45u-13.35u </td><td>";
+                    print_r($row[2]);
+                    echo "</td><td>";
+                    print_r($row[1]);
+                    echo "</td></tr>";
+
+                    mysqli_data_seek($result, 0);
+                    $row = mysqli_fetch_row($result);
+                    echo "<tr><td> 13.35-14.25u </td><td>";
+                    print_r($row[2]);
+                    echo "</td><td>";
+                    print_r($row[1]);
+                    echo "</td></tr>";
+
+                    mysqli_data_seek($result, 0);
                     $row = mysqli_fetch_row($result);
                     echo "<tr class='pure-table-odd'><td> 14.35-15.25u </td><td>";
                     print_r($row[2]);
@@ -270,6 +370,77 @@
 
                 $link->close();
             }
+            function geefUurroosterDinsdag5ITN() {
+                $link = mysqli_connect("localhost", "uurrooster", "uurrooster123", "Uurrooster-Web-App");
+
+                $query = "SELECT VakID, Leerkracht, VakNaam FROM Vakken";
+
+                if ($result = mysqli_query($link, $query)) {
+                    echo "<table class='pure-table'>";
+                    echo "<tr><th>Uur</th><th>Vak</th><th>Leerkracht</th></tr>";
+
+                    mysqli_data_seek($result, 0);
+                    $row = mysqli_fetch_row($result);
+                    echo "<tr class='pure-table-odd'><td> 8.25u-9.15u </td><td>";
+                    print_r($row[2]);
+                    echo "</td><td>";
+                    print_r($row[1]);
+                    echo "</td></tr>";
+
+                    mysqli_data_seek($result, 0);
+                    $row = mysqli_fetch_row($result);
+                    echo "<tr><td> 9.15u-10.05u </td><td>";
+                    print_r($row[2]);
+                    echo "</td><td>";
+                    print_r($row[1]);
+                    echo "</td></tr>";
+                    
+                    mysqli_data_seek($result, 0);
+                    $row = mysqli_fetch_row($result);
+                    echo "<tr class='pure-table-odd'><td> 10.15u-11.05u </td><td>";
+                    print_r($row[2]);
+                    echo "</td><td>";
+                    print_r($row[1]);
+                    echo "</td></tr>";
+
+                    mysqli_data_seek($result, 0);
+                    $row = mysqli_fetch_row($result);
+                    echo "<tr><td> 11.05u-11.55u </td><td>";
+                    print_r($row[2]);
+                    echo "</td><td>";
+                    print_r($row[1]);
+                    echo "</td></tr>";
+
+                    mysqli_data_seek($result, 0);
+                    $row = mysqli_fetch_row($result);
+                    echo "<tr class='pure-table-odd'><td> 12.45u-13.35u </td><td>";
+                    print_r($row[2]);
+                    echo "</td><td>";
+                    print_r($row[1]);
+                    echo "</td></tr>";
+
+                    mysqli_data_seek($result, 0);
+                    $row = mysqli_fetch_row($result);
+                    echo "<tr><td> 13.35-14.25u </td><td>";
+                    print_r($row[2]);
+                    echo "</td><td>";
+                    print_r($row[1]);
+                    echo "</td></tr>";
+
+                    mysqli_data_seek($result, 0);
+                    $row = mysqli_fetch_row($result);
+                    echo "<tr class='pure-table-odd'><td> 14.35-15.25u </td><td>";
+                    print_r($row[2]);
+                    echo "</td><td>";
+                    print_r($row[1]);
+                    echo "</td></tr>";
+
+                    /* free result set*/
+                    mysqli_free_result($result);
+                }
+
+                $link->close();
+            }
             function geefUurroosterWoensdag6ITN() {
                 $link = mysqli_connect("localhost", "uurrooster", "uurrooster123", "Uurrooster-Web-App");
 
@@ -306,6 +477,77 @@
                     mysqli_data_seek($result, 12);
                     $row = mysqli_fetch_row($result);
                     echo "<tr><td> 11.05u-11.55u </td><td>";
+                    print_r($row[2]);
+                    echo "</td><td>";
+                    print_r($row[1]);
+                    echo "</td></tr>";
+
+                    /* free result set*/
+                    mysqli_free_result($result);
+                }
+
+                $link->close();
+            }
+            function geefUurroosterWoensdag5ITN() {
+                $link = mysqli_connect("localhost", "uurrooster", "uurrooster123", "Uurrooster-Web-App");
+
+                $query = "SELECT VakID, Leerkracht, VakNaam FROM Vakken";
+
+                if ($result = mysqli_query($link, $query)) {
+                    echo "<table class='pure-table'>";
+                    echo "<tr><th>Uur</th><th>Vak</th><th>Leerkracht</th></tr>";
+
+                    mysqli_data_seek($result, 0);
+                    $row = mysqli_fetch_row($result);
+                    echo "<tr class='pure-table-odd'><td> 8.25u-9.15u </td><td>";
+                    print_r($row[2]);
+                    echo "</td><td>";
+                    print_r($row[1]);
+                    echo "</td></tr>";
+
+                    mysqli_data_seek($result, 0);
+                    $row = mysqli_fetch_row($result);
+                    echo "<tr><td> 9.15u-10.05u </td><td>";
+                    print_r($row[2]);
+                    echo "</td><td>";
+                    print_r($row[1]);
+                    echo "</td></tr>";
+                    
+                    mysqli_data_seek($result, 0);
+                    $row = mysqli_fetch_row($result);
+                    echo "<tr class='pure-table-odd'><td> 10.15u-11.05u </td><td>";
+                    print_r($row[2]);
+                    echo "</td><td>";
+                    print_r($row[1]);
+                    echo "</td></tr>";
+
+                    mysqli_data_seek($result, 0);
+                    $row = mysqli_fetch_row($result);
+                    echo "<tr><td> 11.05u-11.55u </td><td>";
+                    print_r($row[2]);
+                    echo "</td><td>";
+                    print_r($row[1]);
+                    echo "</td></tr>";
+
+                    mysqli_data_seek($result, 0);
+                    $row = mysqli_fetch_row($result);
+                    echo "<tr class='pure-table-odd'><td> 12.45u-13.35u </td><td>";
+                    print_r($row[2]);
+                    echo "</td><td>";
+                    print_r($row[1]);
+                    echo "</td></tr>";
+
+                    mysqli_data_seek($result, 0);
+                    $row = mysqli_fetch_row($result);
+                    echo "<tr><td> 13.35-14.25u </td><td>";
+                    print_r($row[2]);
+                    echo "</td><td>";
+                    print_r($row[1]);
+                    echo "</td></tr>";
+
+                    mysqli_data_seek($result, 0);
+                    $row = mysqli_fetch_row($result);
+                    echo "<tr class='pure-table-odd'><td> 14.35-15.25u </td><td>";
                     print_r($row[2]);
                     echo "</td><td>";
                     print_r($row[1]);
@@ -396,6 +638,77 @@
 
                 $link->close();
             }
+            function geefUurroosterDonderdag5ITN() {
+                $link = mysqli_connect("localhost", "uurrooster", "uurrooster123", "Uurrooster-Web-App");
+
+                $query = "SELECT VakID, Leerkracht, VakNaam FROM Vakken";
+
+                if ($result = mysqli_query($link, $query)) {
+                    echo "<table class='pure-table'>";
+                    echo "<tr><th>Uur</th><th>Vak</th><th>Leerkracht</th></tr>";
+
+                    mysqli_data_seek($result, 0);
+                    $row = mysqli_fetch_row($result);
+                    echo "<tr class='pure-table-odd'><td> 8.25u-9.15u </td><td>";
+                    print_r($row[2]);
+                    echo "</td><td>";
+                    print_r($row[1]);
+                    echo "</td></tr>";
+
+                    mysqli_data_seek($result, 0);
+                    $row = mysqli_fetch_row($result);
+                    echo "<tr><td> 9.15u-10.05u </td><td>";
+                    print_r($row[2]);
+                    echo "</td><td>";
+                    print_r($row[1]);
+                    echo "</td></tr>";
+                    
+                    mysqli_data_seek($result, 0);
+                    $row = mysqli_fetch_row($result);
+                    echo "<tr class='pure-table-odd'><td> 10.15u-11.05u </td><td>";
+                    print_r($row[2]);
+                    echo "</td><td>";
+                    print_r($row[1]);
+                    echo "</td></tr>";
+
+                    mysqli_data_seek($result, 0);
+                    $row = mysqli_fetch_row($result);
+                    echo "<tr><td> 11.05u-11.55u </td><td>";
+                    print_r($row[2]);
+                    echo "</td><td>";
+                    print_r($row[1]);
+                    echo "</td></tr>";
+
+                    mysqli_data_seek($result, 0);
+                    $row = mysqli_fetch_row($result);
+                    echo "<tr class='pure-table-odd'><td> 12.45u-13.35u </td><td>";
+                    print_r($row[2]);
+                    echo "</td><td>";
+                    print_r($row[1]);
+                    echo "</td></tr>";
+
+                    mysqli_data_seek($result, 0);
+                    $row = mysqli_fetch_row($result);
+                    echo "<tr><td> 13.35-14.25u </td><td>";
+                    print_r($row[2]);
+                    echo "</td><td>";
+                    print_r($row[1]);
+                    echo "</td></tr>";
+
+                    mysqli_data_seek($result, 0);
+                    $row = mysqli_fetch_row($result);
+                    echo "<tr class='pure-table-odd'><td> 14.35-15.25u </td><td>";
+                    print_r($row[2]);
+                    echo "</td><td>";
+                    print_r($row[1]);
+                    echo "</td></tr>";
+
+                    /* free result set*/
+                    mysqli_free_result($result);
+                }
+
+                $link->close();
+            }
             function geefUurroosterVrijdag6ITN() {
                 $link = mysqli_connect("localhost", "uurrooster", "uurrooster123", "Uurrooster-Web-App");
 
@@ -454,6 +767,77 @@
                     echo "</td></tr>";
 
                     mysqli_data_seek($result, 9);
+                    $row = mysqli_fetch_row($result);
+                    echo "<tr class='pure-table-odd'><td> 14.35-15.25u </td><td>";
+                    print_r($row[2]);
+                    echo "</td><td>";
+                    print_r($row[1]);
+                    echo "</td></tr>";
+
+                    /* free result set*/
+                    mysqli_free_result($result);
+                }
+
+                $link->close();
+            }
+            function geefUurroosterVrijdag5ITN() {
+                $link = mysqli_connect("localhost", "uurrooster", "uurrooster123", "Uurrooster-Web-App");
+
+                $query = "SELECT VakID, Leerkracht, VakNaam FROM Vakken";
+
+                if ($result = mysqli_query($link, $query)) {
+                    echo "<table class='pure-table'>";
+                    echo "<tr><th>Uur</th><th>Vak</th><th>Leerkracht</th></tr>";
+
+                    mysqli_data_seek($result, 0);
+                    $row = mysqli_fetch_row($result);
+                    echo "<tr class='pure-table-odd'><td> 8.25u-9.15u </td><td>";
+                    print_r($row[2]);
+                    echo "</td><td>";
+                    print_r($row[1]);
+                    echo "</td></tr>";
+
+                    mysqli_data_seek($result, 0);
+                    $row = mysqli_fetch_row($result);
+                    echo "<tr><td> 9.15u-10.05u </td><td>";
+                    print_r($row[2]);
+                    echo "</td><td>";
+                    print_r($row[1]);
+                    echo "</td></tr>";
+                    
+                    mysqli_data_seek($result, 0);
+                    $row = mysqli_fetch_row($result);
+                    echo "<tr class='pure-table-odd'><td> 10.15u-11.05u </td><td>";
+                    print_r($row[2]);
+                    echo "</td><td>";
+                    print_r($row[1]);
+                    echo "</td></tr>";
+
+                    mysqli_data_seek($result, 0);
+                    $row = mysqli_fetch_row($result);
+                    echo "<tr><td> 11.05u-11.55u </td><td>";
+                    print_r($row[2]);
+                    echo "</td><td>";
+                    print_r($row[1]);
+                    echo "</td></tr>";
+
+                    mysqli_data_seek($result, 0);
+                    $row = mysqli_fetch_row($result);
+                    echo "<tr class='pure-table-odd'><td> 12.45u-13.35u </td><td>";
+                    print_r($row[2]);
+                    echo "</td><td>";
+                    print_r($row[1]);
+                    echo "</td></tr>";
+
+                    mysqli_data_seek($result, 0);
+                    $row = mysqli_fetch_row($result);
+                    echo "<tr><td> 13.35-14.25u </td><td>";
+                    print_r($row[2]);
+                    echo "</td><td>";
+                    print_r($row[1]);
+                    echo "</td></tr>";
+
+                    mysqli_data_seek($result, 0);
                     $row = mysqli_fetch_row($result);
                     echo "<tr class='pure-table-odd'><td> 14.35-15.25u </td><td>";
                     print_r($row[2]);
