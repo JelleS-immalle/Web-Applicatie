@@ -26,3 +26,4 @@ In deze repository vindt u de README.md met de draw.io schema's.
 ## Toekomst...
 
 + Eventueel de klas en de ingegeven naam opslagen in een cookie, zodat deze niet altijd terug opnieuw moeten worden ingegeven.
++ Soort highlighting toevoegen aan de weekdagen zodat de gebruiker weet welk schema er wordt weergegeven.
