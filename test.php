@@ -78,11 +78,12 @@
 
             if (isset($_POST['naamLeerling'])) {
                 controleerNaamLeerling();
+                header('Refresh:0');
             }
 
             function controleerNaamLeerling() {
                 $naamLeerling = $_POST['naamLeerling'];
-                echo '<h1>Ingegeven naam is: '.$naamLeerling.'</h1>';
+                setcookie("leerlingCookie", $naamLeerling);
 
                 $link = mysqli_connect("localhost", "uurrooster", "uurrooster123", "Uurrooster-Web-App");
 
@@ -91,58 +92,63 @@
                 $rowCheck = mysqli_fetch_row($resultCheck);
 
                 if(strpos($rowCheck[0], '6ITN') !==false) {
-                    echo '<h1>Deze leerling zit in 6ITN</h1>';
                     $GLOBALS['klasLeerling'] = "6ITN";
+                    setcookie("klasCookie", $GLOBALS['klasLeerling']);
                 } else if(strpos($rowCheck[0], '5ITN') !==false) {
-                    echo '<h1>Deze leerling zit in 5ITN</h1>';
-                    $GLOBALS['klasLeerling'] = "5ITN";
+                    $GLOBALS['klasLeerling'] = $GLOBALS['klasLeerling'];
+                    setcookie("klasCookie", '5ITN');
                 } else {
-                    echo '<h1>De naam die werd ingegeven wordt niet herkend</h1>';
+                    echo '<script language="javascript">';
+                    echo 'alert("Gelieve een geldige naam in te geven.")';
+                    echo '</script>';
+                    /* Hieronder wordt de cookie met de klas naam
+                    leeg gemaakt zodat het uurrooster niet wordt afgeprint */
+                    setcookie("klasCookie", '');
                 }
             }
 
             /* Hier worden de uurroosters afgeprint */
 
             if (isset($_GET['maandag'])) {
-                if($GLOBALS['klasLeerling'] == "6ITN") {
+                if($_COOKIE['klasCookie'] == "6ITN") {
                     geefUurroosterMaandag6ITN();
-                } else if($GLOBALS['klasLeerling'] == "5ITN") {
+                } else if($_COOKIE['klasCookie'] == "5ITN") {
                     geefUurroosterMaandag5ITN();
                 } else {
                     echo '<h1>Geef een naam in zodat de web app weet in welke klas je zit</h1>';
                 }
             }
             if (isset($_GET['dinsdag'])) {
-                if($GLOBALS['klasLeerling'] == "6ITN") {
+                if($_COOKIE['klasCookie'] == "6ITN") {
                     geefUurroosterDinsdag6ITN();
-                } else if($GLOBALS['klasLeerling'] == "5ITN") {
+                } else if($_COOKIE['klasCookie'] == "5ITN") {
                     geefUurroosterDinsdag5ITN();
                 } else {
                     echo '<h1>Geef een naam in zodat de web app weet in welke klas je zit</h1>';
                 }
             }
             if (isset($_GET['woensdag'])) {
-                if($GLOBALS['klasLeerling'] == "6ITN") {
+                if($_COOKIE['klasCookie'] == "6ITN") {
                     geefUurroosterWoensdag6ITN();
-                } else if($GLOBALS['klasLeerling'] == "5ITN") {
+                } else if($_COOKIE['klasCookie'] == "5ITN") {
                     geefUurroosterWoensdag5ITN();
                 } else {
                     echo '<h1>Geef een naam in zodat de web app weet in welke klas je zit</h1>';
                 }
             }
             if (isset($_GET['donderdag'])) {
-                if($GLOBALS['klasLeerling'] == "6ITN") {
+                if($_COOKIE['klasCookie'] == "6ITN") {
                     geefUurroosterDonderdag6ITN();
-                } else if($GLOBALS['klasLeerling'] == "5ITN") {
+                } else if($_COOKIE['klasCookie'] == "5ITN") {
                     geefUurroosterDonderdag5ITN();
                 } else {
                     echo '<h1>Geef een naam in zodat de web app weet in welke klas je zit</h1>';
                 }
             }
             if (isset($_GET['vrijdag'])) {
-                if($GLOBALS['klasLeerling'] == "6ITN") {
+                if($_COOKIE['klasCookie'] == "6ITN") {
                     geefUurroosterVrijdag6ITN();
-                } else if($GLOBALS['klasLeerling'] == "5ITN") {
+                } else if($_COOKIE['klasCookie'] == "5ITN") {
                     geefUurroosterVrijdag5ITN();
                 } else {
                     echo '<h1>Geef een naam in zodat de web app weet in welke klas je zit</h1>';
@@ -155,6 +161,8 @@
                 $query = "SELECT VakID, Leerkracht, VakNaam FROM Vakken";
 
                 if ($result = mysqli_query($link, $query)) {
+                    echo "<h1>Ingegeven naam is: ".$_COOKIE['leerlingCookie'];
+                    echo '<h1>Deze leerling zit in 6ITN</h1>';
                     echo "<table class='pure-table'>";
                     echo "<tr><th>Uur</th><th>Vak</th><th>Leerkracht</th></tr>";
 
@@ -226,6 +234,8 @@
                 $query = "SELECT VakID, Leerkracht, VakNaam FROM Vakken";
 
                 if ($result = mysqli_query($link, $query)) {
+                    echo "<h1>Ingegeven naam is: ".$_COOKIE['leerlingCookie'];
+                    echo "<h1>Deze leerling zit in 5ITN</h1>";
                     echo "<table class='pure-table'>";
                     echo "<tr><th>Uur</th><th>Vak</th><th>Leerkracht</th></tr>";
 
@@ -297,6 +307,8 @@
                 $query = "SELECT VakID, Leerkracht, VakNaam FROM Vakken";
 
                 if ($result = mysqli_query($link, $query)) {
+                    echo "<h1>Ingegeven naam is: ".$_COOKIE['leerlingCookie'];
+                    echo '<h1>Deze leerling zit in 6ITN</h1>';
                     echo "<table class='pure-table'>";
                     echo "<tr><th>Uur</th><th>Vak</th><th>Leerkracht</th></tr>";
 
@@ -376,6 +388,8 @@
                 $query = "SELECT VakID, Leerkracht, VakNaam FROM Vakken";
 
                 if ($result = mysqli_query($link, $query)) {
+                    echo "<h1>Ingegeven naam is: ".$_COOKIE['leerlingCookie'];
+                    echo "<h1>Deze leerling zit in 5ITN</h1>";
                     echo "<table class='pure-table'>";
                     echo "<tr><th>Uur</th><th>Vak</th><th>Leerkracht</th></tr>";
 
@@ -447,6 +461,8 @@
                 $query = "SELECT VakID, Leerkracht, VakNaam FROM Vakken";
 
                 if ($result = mysqli_query($link, $query)) {
+                    echo "<h1>Ingegeven naam is: ".$_COOKIE['leerlingCookie'];
+                    echo '<h1>Deze leerling zit in 6ITN</h1>';
                     echo "<table class='pure-table'>";
                     echo "<tr><th>Uur</th><th>Vak</th><th>Leerkracht</th></tr>";
 
@@ -494,6 +510,8 @@
                 $query = "SELECT VakID, Leerkracht, VakNaam FROM Vakken";
 
                 if ($result = mysqli_query($link, $query)) {
+                    echo "<h1>Ingegeven naam is: ".$_COOKIE['leerlingCookie'];
+                    echo "<h1>Deze leerling zit in 5ITN</h1>";
                     echo "<table class='pure-table'>";
                     echo "<tr><th>Uur</th><th>Vak</th><th>Leerkracht</th></tr>";
 
@@ -565,6 +583,8 @@
                 $query = "SELECT VakID, Leerkracht, VakNaam FROM Vakken";
 
                 if ($result = mysqli_query($link, $query)) {
+                    echo "<h1>Ingegeven naam is: ".$_COOKIE['leerlingCookie'];
+                    echo '<h1>Deze leerling zit in 6ITN</h1>';
                     echo "<table class='pure-table'>";
                     echo "<tr><th>Uur</th><th>Vak</th><th>Leerkracht</th></tr>";
 
@@ -644,6 +664,8 @@
                 $query = "SELECT VakID, Leerkracht, VakNaam FROM Vakken";
 
                 if ($result = mysqli_query($link, $query)) {
+                    echo "<h1>Ingegeven naam is: ".$_COOKIE['leerlingCookie'];
+                    echo "<h1>Deze leerling zit in 5ITN</h1>";
                     echo "<table class='pure-table'>";
                     echo "<tr><th>Uur</th><th>Vak</th><th>Leerkracht</th></tr>";
 
@@ -715,6 +737,8 @@
                 $query = "SELECT VakID, Leerkracht, VakNaam FROM Vakken";
 
                 if ($result = mysqli_query($link, $query)) {
+                    echo "<h1>Ingegeven naam is: ".$_COOKIE['leerlingCookie'];
+                    echo '<h1>Deze leerling zit in 6ITN</h1>';
                     echo "<table class='pure-table'>";
                     echo "<tr><th>Uur</th><th>Vak</th><th>Leerkracht</th></tr>";
 
@@ -786,6 +810,8 @@
                 $query = "SELECT VakID, Leerkracht, VakNaam FROM Vakken";
 
                 if ($result = mysqli_query($link, $query)) {
+                    echo "<h1>Ingegeven naam is: ".$_COOKIE['leerlingCookie'];
+                    echo "<h1>Deze leerling zit in 5ITN</h1>";
                     echo "<table class='pure-table'>";
                     echo "<tr><th>Uur</th><th>Vak</th><th>Leerkracht</th></tr>";
 
@@ -852,6 +878,5 @@
                 $link->close();
             }
         ?>
-
     </body>
 </html>
