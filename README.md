@@ -28,6 +28,10 @@ In deze repository vindt u de README.md, draw.io schema's en alle bestanden rond
 + Cookies toegevoegd met de ingegeven naam en bijhorende klas van de leerling.
 + => Tijdelijke oplossing voor het weergeven van cookies op de pagina zelf door een refresh te doen nadat de input is gesubmit.
 
+## 27-04-2017
+
++ Bestand toegevoegd met de code die het schema en de tabellen aanmaakt, inclusief invullen van tabellen.
+
 ## Toekomst...
 
 + Eventueel de klas en de ingegeven naam opslagen in een cookie, zodat deze niet altijd terug opnieuw moeten worden ingegeven. [25-04-2017]
