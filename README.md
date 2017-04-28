@@ -32,6 +32,10 @@ In deze repository vindt u de README.md, draw.io schema's en alle bestanden rond
 
 + Bestand toegevoegd met de code die het schema en de tabellen aanmaakt, inclusief invullen van tabellen.
 
+## 28-04-2017
+
++ Enkele queries toegevoegd aan het SQL-bestand.
+
 ## Toekomst...
 
 + Eventueel de klas en de ingegeven naam opslagen in een cookie, zodat deze niet altijd terug opnieuw moeten worden ingegeven. [25-04-2017]
