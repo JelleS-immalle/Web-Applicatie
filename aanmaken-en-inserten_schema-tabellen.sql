@@ -67,3 +67,24 @@ INSERT INTO `Uurrooster-Web-App`.`Vakken` (`VakID`, `Leerkracht`, `VakNaam`) VAL
 ('13', 'Van Broeckhoven H.', 'Natuurwetenschappen'),
 ('14', 'Philips J.', 'Godsdienst'),
 ('15', 'Vervoort K.', 'Lichamelijke Opvoeding');
+
+/* Hieronder vindt u enkele select-queries. */
+
+/* Deze select-query geeft de naam van de leerling, klas en het klasnummer van
+de leerlingen met een klasnummer kleiner dan of gelijk aan 5. */
+SELECT LeerlingNaam, KlasNaam, Klasnummer
+FROM `Uurrooster-Web-App`.Leerling
+WHERE Klasnummer <= 5;
+
+/* Deze select-query geeft de naam van de leerkrachten
+die "van" in hun naam hebben. */
+SELECT LeerkrachtNaam
+FROM `Uurrooster-Web-App`.Leerkrachten
+WHERE LeerkrachtNaam
+LIKE '%van%';
+
+/* Deze select-query geeft de naam van een bepaalde leerkracht
+en de vakken die hij/zij geeft. */
+SELECT VakNaam, Leerkracht
+FROM `Uurrooster-Web-App`.Vakken
+WHERE Leerkracht = 'Bens M.-L.';
