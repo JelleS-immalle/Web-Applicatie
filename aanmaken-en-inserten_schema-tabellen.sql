@@ -102,12 +102,12 @@ CREATE TABLE `Uurrooster-App`.`Leerling` (
 CREATE TABLE `Uurrooster-App`.`Vakken` (
   `ID` INT NOT NULL,
   `VakNaam` VARCHAR(45) NULL,
+  `LeerkrachtID` INT NULL,
   PRIMARY KEY (`ID`));
   
 CREATE TABLE `Uurrooster-App`.`Leerkrachten` (
   `ID` INT NOT NULL,
   `LeerkrachtNaam` VARCHAR(45) NULL,
-  `VakID` INT NULL,
   PRIMARY KEY (`ID`));
   
 CREATE TABLE `Uurrooster-App`.`LeerlingVakken` (
