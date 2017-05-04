@@ -88,3 +88,30 @@ en de vakken die hij/zij geeft. */
 SELECT VakNaam, Leerkracht
 FROM `Uurrooster-Web-App`.Vakken
 WHERE Leerkracht = 'Bens M.-L.';
+
+/* Hieronder bevindt zich de code om het schema en de tabellen toe te voegen van de Laravel versie. */
+
+CREATE SCHEMA `Uurrooster-App`;
+
+CREATE TABLE `Uurrooster-App`.`Leerling` (
+  `ID` INT NOT NULL,
+  `LeerlingNaam` VARCHAR(45) NULL,
+  `LeerlingKlasnummer` VARCHAR(45) NULL,
+  PRIMARY KEY (`ID`));
+  
+CREATE TABLE `Uurrooster-App`.`Vakken` (
+  `ID` INT NOT NULL,
+  `VakNaam` VARCHAR(45) NULL,
+  PRIMARY KEY (`ID`));
+  
+CREATE TABLE `Uurrooster-App`.`Leerkrachten` (
+  `ID` INT NOT NULL,
+  `LeerkrachtNaam` VARCHAR(45) NULL,
+  `VakID` INT NULL,
+  PRIMARY KEY (`ID`));
+  
+CREATE TABLE `Uurrooster-App`.`LeerlingVakken` (
+  `ID` INT NOT NULL,
+  `LeerlingID` INT NULL,
+  `VakID` INT NULL,
+  PRIMARY KEY (`ID`));
